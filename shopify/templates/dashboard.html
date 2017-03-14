@@ -1,0 +1,87 @@
+{% extends 'mvpadmin_layout.html' %}
+
+{% load staticfiles %}
+{%  load image_tags %}
+{% block title_block %}
+<title>{{page_name}}</title>
+{% endblock %}
+
+{% block css_block %}
+  <link href="{% static 'css/style.css' %}" rel="stylesheet" type="text/css" />
+{% endblock %}
+
+{% block content %}
+
+{% if admin == "true" %}
+<span style="display: block; float: right; margin-top: -18px; margin-right:70px;"><a href="/products">Vendor Products</a></span>
+{% endif %}
+
+<div class="container">
+    <div class="well well-sm all_products">
+    
+        <strong>{{vendor_name}}</strong>
+    </div>
+
+
+    <div id="products" class="row list-group">
+    	{% for product in  products_list %}
+	        <div class="item col-lg-4 col-md-4 col-sm-6 col-xs-12 mvp_all_product">
+	            <div class="thumbnail">
+	               <img src="{% image_products product 400 %}" />                 
+	                <div class="caption">
+	                    <h4 class="group inner list-group-item-heading">
+	                        {{product.title}}</h4>
+	                    <p class="group inner list-group-item-text">{{product.description}}</p>
+	                    
+	                            <p>Selling Price :  ${{product.selling_price}}</p>
+	                            <p>Compare Price :  ${{product.compare_price}}</p>
+	                            <p>SKU :  {{product.sku}}</p>
+	                </div>
+	            </div>
+	        </div>
+        {% endfor %}
+
+
+
+        {% if not products_list %}
+        <div class="mvp-empty">
+        	<h3>You don't have any products.</h3>
+        </div>
+        {% endif %}
+	</div>
+  {% if products_list.has_other_pages %}
+  <ul class="pagination  hidden-x">
+    {% if products_list.has_previous %}
+      {% if vendor_name == "My Products" %}
+        <li><a href="?page={{ products.previous_page_number }}">&laquo;</a></li>
+      {% else %}
+        <li><a href="?user_id={{user_id}}&page={{ products.previous_page_number }}&user_name={{vendor_name}}">&laquo;</a></li>
+      {% endif %}
+    {% else %}
+      <li class="disabled"><span>&laquo;</span></li>
+    {% endif %}
+    {% for i in products_list.paginator.page_range %}
+      {% if products_list.number == i %}
+        <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+      {% else %}
+        {% if vendor_name == "My Products" %}
+          <li><a href="?page={{ i }}">{{ i }}</a></li>
+        {% else %}
+          <li><a href="?user_id={{user_id}}&page={{ i }}&user_name={{vendor_name}}">{{ i }}</a></li>
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+    {% if products_list.has_next %}
+      {% if vendor_name == "My Products" %}
+        <li><a href="?page={{ products_list.next_page_number }}">&raquo;</a></li>
+      {% else %}
+        <li><a href="?user_id={{user_id}}&page={{ products_list.next_page_number }}&user_name={{vendor_name}}">&raquo;</a></li>
+      {% endif %}
+    {% else %}
+      <li class="disabled"><span>&raquo;</span></li>
+    {% endif %}
+  </ul>
+{% endif %} 
+	
+
+{% endblock %}

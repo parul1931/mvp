@@ -1,0 +1,207 @@
+{% extends 'mvpadmin_layout.html' %}
+{% load staticfiles %}
+
+
+{% block title_block %}
+<title>Add Product</title>
+{% endblock %}
+
+{% block content %}
+
+<center><h4 class="heading">Add Product</h4></center>
+<form action="" method="post" enctype="multipart/form-data" id="add-product">
+{% csrf_token %}
+<section>
+<div class="add_product">
+    <div class="form-group box">
+  <label for="usr">Title</label>
+  <input type="text" class="form-control input-lg" id="usr" placeholder="Short Sleeve T-Shirt" value="{{posted_data.title}}" name="title" required><br>
+    <label for="Description">Description</label>
+      <textarea class="form-control" rows="5" name="description" required>{{posted_data.description}}</textarea><br>
+    <label for="category">Select Category</label>
+      <select name="category" class="form-control category">
+      {% for category in categories_list %}
+        <option value="{{category.category_id}}" selected>{{category.category_name}}</option>
+      {% endfor %}
+      </select>
+
+      <input type="hidden" name="token" id="token" value="{{posted_data.token}}">
+</div>
+  </div>
+</section>
+
+
+
+<section>
+<div class="add_product ">
+<div class="col-sm-10 box1">
+<h4>Image</h4>
+    <div style="margin-bottom: 20px;">
+    <button type="button" class="btn btn-primary js-upload-photos">
+      <span class="glyphicon glyphicon-cloud-upload"></span> Upload photos
+    </button>
+    <input id="fileupload" type="file" name="file" multiple
+           style="display: none;"
+           data-url="{% url 'add_image' %}"
+           data-form-data='{"csrfmiddlewaretoken": "{{ csrf_token }}"}'>
+
+           <div style="width: 50%; padding-top: 15px;">
+    <img src="" id="view_image" style="display: none; width: 100%;">  
+  </div>
+  </div>
+</div>
+  <div class="col-sm-2 ">
+
+    <p style="margin-top: -164px;">
+    <!-- <input type="file" class="form-control-file " id="image" name="image" required>
+    <a href="#" alt="upload">Upload Image</a> -->
+
+
+ 
+  
+    </p>
+    <!-- <img src="/static/images/error.png"> -->
+    </div>  
+</div>
+</section>
+
+
+<section>
+<div class="add_product ">
+<div class="box2">
+<h4>Pricing</h4>
+<div class="col-sm-6">
+
+  <div class="form-group">
+  <label for="usr">Price</label><br>
+    <label class="sr-only" for="exampleInputSellingAmount">0.00</label>
+    <div class="input-group">
+      <div class="input-group-addon">$</div>
+      <input type="number" class="form-control" id="exampleInputSellingAmount" placeholder="0.00" name="selling_price" value="{{posted_data.selling_price}}" required>
+      </div>
+    </div>
+
+
+</div>
+<div class="col-sm-6">
+
+  <div class="form-group">
+  <label for="usr">Compare at price</label><br>
+    <label class="sr-only" for="exampleInputCompareAmount">0.00</label>
+    <div class="input-group">
+
+      <div class="input-group-addon">$</div>
+      <input type="number" class="form-control" id="exampleInputCompareAmount" name="compare_price" value="{{posted_data.compare_price}}">
+      </div>
+    </div>
+
+</div>
+<!-- <div class="checkbox">
+    <label><input type="checkbox" name="is_tax"> Charge taxes on this product</label>
+  </div> -->
+</div></div>
+</section>
+
+<section>
+<div class="add_product ">
+<div class="box3">
+<div class="row">
+
+<h4>Quantity policy</h4>
+<div class="col-sm-6">
+
+  <div class="form-group">
+  <label for="usr">SKU (Stock Keeping Unit)</label><br>
+    <div class="input-group">
+      <input type="text" class="form-control" id="usr" name="sku" value="{{posted_data.sku}}">
+      </div>
+      {{form.as_p}}
+    </div>
+
+
+</div>
+<div class="col-sm-6">
+
+  <div class="form-group">
+  <label for="usr">Barcode (ISBN, UPC, GTIN, etc.)</label><br>
+    <div class="input-group">
+      <input type="text" class="form-control" name="barcode" value="{{posted_data.barcode}}">
+      </div>
+    </div>
+
+</div>
+<!-- <div class="col-sm-6 barcode">
+
+  <div class="form-group">
+  <label for="usr">Quantity policy</label><br>
+<select name="trackinventory">
+  <option value="0">Don't track inventory</option>
+  <option value="1">Shopify tracks this product's inventory</option>
+</select>
+  </div>
+
+</div> -->
+  
+</div>
+</div>
+</div>
+<button class="btn btn-lg btn-primary btn-block" type="submit">Add</button>
+</section>
+</form>
+
+<div class="modal fade" id="modal-progress" data-backdrop="static" data-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">Uploading...</h4>
+        </div>
+        <div class="modal-body">
+          <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 0%;">0%</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade delete-popup-model popup-alert" id="popup_error">
+       <div class="modal-dialog help-modal clearfix" role="document">
+           <div class="modal-header blank-name-alert">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+               <h4 class="modal-title" id="message-error">   </h4>
+           </div>
+       </div>
+   </div>
+{% endblock %}
+
+{% block js %}
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script> -->
+<script src="{% static 'js/jquery.validate.min.js' %}"></script>
+<script type="text/javascript">
+  
+  $("#add-product").validate({
+       rules: {
+        title: {
+          required: true,
+        },
+        description: "required",
+        selling_price: "required",
+        compare_price: "required",
+        sku: "required",
+        barcode: "required",
+        password: {
+          required: true,
+        }
+       },
+       submitHandler: function(form){
+        form.submit();
+       }
+    });
+</script>
+
+<script src="{% static 'js/jquery.ui.widget.js' %}"></script>
+<script src="{% static 'js/jquery.iframe-transport.js' %}"></script>
+<script src="{% static 'js/jquery.fileupload.js' %}"></script>
+<script src="{% static 'js/progress-bar-upload.js' %}"></script>
+
+{% endblock %}

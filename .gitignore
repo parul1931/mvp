@@ -1,0 +1,5 @@
+venv
+mvp-env
+*.pyc
+staticfiles
+.env
