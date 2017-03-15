@@ -23,9 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '#jfr-2_2f!*vqm^l&=yygxb-=j$7@j9^cce2dj=t(sue4wf0!o'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = ['*']
 
 #HOST = "http://182.71.22.110:7020"
 HOST = 'http://192.168.1.165:7020'
@@ -120,7 +118,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'mvp',
         'USER': 'root',
-        'PASSWORD': 'pankaj#',
+        'PASSWORD': 'esfera',
         'HOST': 'localhost',
         'PORT': '',
     }
@@ -168,3 +166,17 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+ALLOWED_HOSTS = ['*']
+
+DEBUG = False
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass

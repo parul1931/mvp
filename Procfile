@@ -1,1 +1,1 @@
-web: gunicorn mvp.wsgi --log-file -
+web: gunicorn mvp.wsgi
