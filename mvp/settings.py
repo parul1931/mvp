@@ -115,22 +115,25 @@ WSGI_APPLICATION = 'mvp.wsgi.application'
 #     }
 # }
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.mysql',
-#         'NAME': 'mvp',
-#         'USER': 'root',
-#         'PASSWORD': 'pankaj#',
-#         'HOST': 'localhost',
-#         'PORT': '',
-#     }
-# }
 
-DATABASES = {
+try:
+    DATABASES = {
     'default': dj_database_url.config(
         default=config('DATABASE_URL')
     )
     }
+except:
+    DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'mvp',
+        'USER': 'root',
+        'PASSWORD': 'esfera',
+        'HOST': 'localhost',
+        'PORT': '',
+    }
+}
+
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
 
@@ -173,3 +176,13 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_HOST_USER = 'testesfera1@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'esferasoft'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
