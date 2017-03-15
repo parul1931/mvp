@@ -209,7 +209,7 @@ def register(request):
 				# create the email, and attach the HTML version as well.
 				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
 				msg.attach_alternative(html_content, "text/html")
-				msg.send()
+				#msg.send()
 
 				# fromaddr = "testesfera1@gmail.com"
 				# password = "esferasoft"
