@@ -234,7 +234,7 @@ def register(request):
 				test = MIMEText(content_html, 'html')
 				msg.attach(test)
 
-				server = smtplib.SMTP('smtp.gmail.com', 587)
+				server = smtplib.SMTP('smtp.gmail.com', 465)
 				server.starttls()
 				server.login(fromaddr, password)
 				text = msg.as_string()
