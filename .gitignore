@@ -4,3 +4,4 @@ mvp-env
 staticfiles
 .env
 local_settings.py
+media
