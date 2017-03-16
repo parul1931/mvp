@@ -216,6 +216,8 @@ def register(request):
 				fromaddr = "testesfera1@gmail.com"
 				password = "esferasoft"
 
+				link = "https://"+request.META['HTTP_HOST']
+
 				admin_detail = UserDetail(request).get_admin()
 				admin_email = admin_detail.emailid
 
