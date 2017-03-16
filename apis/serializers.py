@@ -35,6 +35,8 @@ class ProductsSerializer(serializers.ModelSerializer):
 
 	images = serializers.SerializerMethodField('image_serializer')
 
+	label = serializers.SerializerMethodField('vendor_serializer')
+
 	def image_serializer(self, obj):
 		images_list = []
 
@@ -53,6 +55,11 @@ class ProductsSerializer(serializers.ModelSerializer):
 			default_image = "https://"+self.context['request'].META['HTTP_HOST'] + "/media/default_image.gif"
 			images_list.append(default_image)
 		return images_list
+
+	def vendor_serializer(self, obj):
+		vendor_detail = Vendor.objects.get(user_id=obj.user_id)
+		return vendor_detail.vendor
+
 
 	class Meta:
 		model = Products
