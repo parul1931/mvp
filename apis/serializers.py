@@ -46,11 +46,11 @@ class ProductsSerializer(serializers.ModelSerializer):
 			image_id = image.id
 			token = image.token
 			if token:
-				image_path = "http://"+self.context['request'].META['HTTP_HOST'] + url + str(token) + "/" + str(image_id)
+				image_path = "https://"+self.context['request'].META['HTTP_HOST'] + url + str(token) + "/" + str(image_id)
 				images_list.append(image_path)
 
 		if not images_list:
-			default_image = "http://"+self.context['request'].META['HTTP_HOST'] + "/media/default_image.gif"
+			default_image = "https://"+self.context['request'].META['HTTP_HOST'] + "/media/default_image.gif"
 			images_list.append(default_image)
 		return images_list
 
