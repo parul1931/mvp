@@ -199,7 +199,7 @@ def register(request):
 				recipients = [admin_email]
 				
 				too = ", ".join(recipients)
-				link = "http://"+request.META['HTTP_HOST']
+				link = "https://"+request.META['HTTP_HOST']
 				subject, from_email, to = 'Request for Approval of Vendor Account', 'testesfera1@gmail.com', too
 
 
