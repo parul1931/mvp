@@ -194,49 +194,51 @@ def register(request):
 				vendor_detail=Vendor(user_id=detail.id,vendor=request.POST['vendor'])
 				vendor_detail.save()
 
-				admin_detail = UserDetail(request).get_admin()
-				admin_email = admin_detail.emailid
-				recipients = [admin_email]
-				
-				too = ", ".join(recipients)
-				link = "https://"+request.META['HTTP_HOST']
-				subject, from_email, to = 'Request for Approval of Vendor Account', 'testesfera1@gmail.com', too
-
-
-				html_content =render_to_string('account_activation.html', {'link':link}) # ...
-				text_content = strip_tags(html_content) # this strips the html, so people will have the text as well.
-
-				# create the email, and attach the HTML version as well.
-				msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
-				msg.attach_alternative(html_content, "text/html")
-				#msg.send()
-
-				# fromaddr = "testesfera1@gmail.com"
-				# password = "esferasoft"
-
 				# admin_detail = UserDetail(request).get_admin()
 				# admin_email = admin_detail.emailid
-
-				# msg = MIMEMultipart()
-				# msg['From'] = fromaddr
-
 				# recipients = [admin_email]
-				# msg['To'] = ", ".join(recipients)
+				
+				# too = ", ".join(recipients)
+				# link = "https://"+request.META['HTTP_HOST']
+				# subject, from_email, to = 'Request for Approval of Vendor Account', 'testesfera1@gmail.com', too
 
-				# msg['Subject'] = "Request for Approval of Vendor Account"
 
-				# content_html = render_to_string('account_activation.html', {'link':link})
+				# html_content =render_to_string('account_activation.html', {'link':link}) # ...
+				# text_content = strip_tags(html_content) # this strips the html, so people will have the text as well.
 
-				# test = MIMEText(content_html, 'html')
-				# msg.attach(test)
+				# create the email, and attach the HTML version as well.
+				# msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+				# msg.attach_alternative(html_content, "text/html")
 
-				# server = smtplib.SMTP('smtp.gmail.com', 587)
-				# server.starttls()
-				# server.login(fromaddr, password)
-				# text = msg.as_string()
 
-				# server.sendmail(fromaddr, recipients, text)
-				# server.quit()
+				#msg.send()
+
+				fromaddr = "testesfera1@gmail.com"
+				password = "esferasoft"
+
+				admin_detail = UserDetail(request).get_admin()
+				admin_email = admin_detail.emailid
+
+				msg = MIMEMultipart()
+				msg['From'] = fromaddr
+
+				recipients = [admin_email]
+				msg['To'] = ", ".join(recipients)
+
+				msg['Subject'] = "Request for Approval of Label Account"
+
+				content_html = render_to_string('account_activation.html', {'link':link})
+
+				test = MIMEText(content_html, 'html')
+				msg.attach(test)
+
+				server = smtplib.SMTP('smtp.gmail.com', 587)
+				server.starttls()
+				server.login(fromaddr, password)
+				text = msg.as_string()
+
+				server.sendmail(fromaddr, recipients, text)
+				server.quit()
 				messages.add_message(request, messages.SUCCESS, 'Registered Successfully. Please check your mail for approval of your account from admin.')
 			return redirect("/")
 
