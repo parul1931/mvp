@@ -213,34 +213,34 @@ def register(request):
 
 				#msg.send()
 
-				fromaddr = "testesfera1@gmail.com"
-				password = "esferasoft"
+				# fromaddr = "testesfera1@gmail.com"
+				# password = "esferasoft"
 
-				link = "https://"+request.META['HTTP_HOST']
+				# link = "https://"+request.META['HTTP_HOST']
 
-				admin_detail = UserDetail(request).get_admin()
-				admin_email = admin_detail.emailid
+				# admin_detail = UserDetail(request).get_admin()
+				# admin_email = admin_detail.emailid
 
-				msg = MIMEMultipart()
-				msg['From'] = fromaddr
+				# msg = MIMEMultipart()
+				# msg['From'] = fromaddr
 
-				recipients = [admin_email]
-				msg['To'] = ", ".join(recipients)
+				# recipients = [admin_email]
+				# msg['To'] = ", ".join(recipients)
 
-				msg['Subject'] = "Request for Approval of Label Account"
+				# msg['Subject'] = "Request for Approval of Label Account"
 
-				content_html = render_to_string('account_activation.html', {'link':link})
+				# content_html = render_to_string('account_activation.html', {'link':link})
 
-				test = MIMEText(content_html, 'html')
-				msg.attach(test)
+				# test = MIMEText(content_html, 'html')
+				# msg.attach(test)
 
-				server = smtplib.SMTP('smtp.gmail.com', 465)
-				server.starttls()
-				server.login(fromaddr, password)
-				text = msg.as_string()
+				# server = smtplib.SMTP('smtp.gmail.com', 465)
+				# server.starttls()
+				# server.login(fromaddr, password)
+				# text = msg.as_string()
 
-				server.sendmail(fromaddr, recipients, text)
-				server.quit()
+				# server.sendmail(fromaddr, recipients, text)
+				# server.quit()
 				messages.add_message(request, messages.SUCCESS, 'Registered Successfully. Please check your mail for approval of your account from admin.')
 			return redirect("/")
 
