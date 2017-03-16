@@ -211,7 +211,8 @@ def accounts_detail(request):
 def categories_detail(request):
 	categories = Categories.objects.all()
 	serializer = CategoriesSerializer(categories, many=True, context={'request': request})
-	return JsonResponse(serializer.data, safe=False)
+	return Response(serializer.data)
+	#return JsonResponse(serializer.data, safe=False)
 
 @api_view(['GET'])
 def account_types(request):
